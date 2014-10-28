@@ -28,7 +28,7 @@ get '/' do
 end
 
 get_or_post "/ajax" do
-  {tick: $redis.get("KWH"), temp: $redis.get("PANNU"), stamp:Time.now.to_i}.to_json
+  {tick: $redis.get("KWH"), temp: $redis.get("PANNU"), now: $redis.get("NOW")}.to_json
 end
 
 get '/js/:name.js' do

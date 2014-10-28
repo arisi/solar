@@ -7,8 +7,6 @@
     %h1
       AURINKOSÄÄDIN
     %hr
-    %p
-      Aikaleima: #{Time.now.to_i}
     %p 
       Saatu energia =
       %span#tick
@@ -17,9 +15,10 @@
       Lämpötila =
       %span#temp
         ?
+      &deg;C
     %p
-      astetta sekä aikaleima:
-      %span#stamp
+      aika nyt:
+      %span#now
         ?
     %hr
     %p{style: "font-size: 12px;"} That's all folks!

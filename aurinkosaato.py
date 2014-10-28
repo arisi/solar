@@ -22,10 +22,12 @@ import os
 import redis
 import time
 import datetime
+import re
 
 def stamp():
-  #returns suitable timestamp, 0:16 -> per minute	 
-  return datetime.datetime.now().isoformat()[0:16]
+  #returns suitable timestamp, 0:12 -> per minute
+  ss=datetime.datetime.now().isoformat()
+  return re.sub('[^0-9]','', ss)[0:12]
 
 print "aurinkosäätö starting... stamp now: '%s'" % stamp()
 
@@ -189,13 +191,13 @@ while True:
     file_object.close()
     lampolaskuri = 0
     KWHmittari = KWHmittari + (tehosumma / 3600000)
-    r_server.set('KWH', KWHmittari)
-    r_server.set('PANNU', pannuTemp)
+    r_server.set('KWH', KWHmittari )
+    r_server.set('PANNU', pannuTemp )
 
     s=stamp()
     r_server.set('NOW',s)
-    r_server.set('KWH:%s' % s, KWHmittari)
-    r_server.set('PANNU:%s' %s s, pannuTemp)
+    r_server.set('KWH:%s' % s, KWHmittari )
+    r_server.set('PANNU:%s' % s, pannuTemp )
 
     tehosumma = 0
     print ("U=%0.1f ")%U,("I=%0.2f ")%I,("P=%0.2fW ")%teho,(" tv=%0.2f ")%pannuTemp,(" KWH=%0.1f ")%KWHmittari,time.strftime("%H:%M:%S:  %d.%m.%Y", time.localtime())

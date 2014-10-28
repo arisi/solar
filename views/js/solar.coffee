@@ -7,7 +7,7 @@ task = () ->
       obj = jQuery.parseJSON(data)
       $("#tick").html(obj.tick)
       $("#temp").html(obj.temp)
-      $("#stamp").html(obj.stamp)
+      $("#now").html(obj.now)
 
 $(document).ready ->
   timer=setInterval (->
