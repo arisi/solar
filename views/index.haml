@@ -1,0 +1,25 @@
+!!!
+%html{lang: "fi"}
+  %head
+    %script{:src => "http://s.debet.fi/js/jquery-1.8.3.min.js"}
+    %script{:src => "/js/koe.js", :type => "text/javascript"}
+  %body
+    %h1
+      AURINKOSÄÄDIN
+    %hr
+    %p
+      Aikaleima: #{Time.now.to_i}
+    %p 
+      Saatu energia =
+      %span#tick
+        ?
+    %p  
+      Lämpötila =
+      %span#temp
+        ?
+    %p
+      astetta sekä aikaleima:
+      %span#stamp
+        ?
+    %hr
+    %p{style: "font-size: 12px;"} That's all folks!
