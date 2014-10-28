@@ -1,7 +1,7 @@
-#rsinatra
+#solar
 
 
-minimal sinatra setup for raspberry pi
+minimal sinatra setup for raspberry pi to control Solar Power
 
 
 ### Installing on raspbian
