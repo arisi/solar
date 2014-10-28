@@ -3,6 +3,7 @@
 Gemfile.lock
 dump.rdb 
 *.rbc
+.gitconfig
 /.config
 /coverage/
 /InstalledFiles
