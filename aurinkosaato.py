@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+#encoding: UTF-8
+
 #------------------------------------------------
 # Name      : aurinko
 # Author    : Ari Kristola
@@ -17,6 +20,15 @@ import RPi.GPIO as GPIO
 import spidev
 import os
 import redis
+import time
+import datetime
+
+def stamp():
+  #returns suitable timestamp, 0:16 -> per minute	 
+  return datetime.datetime.now().isoformat()[0:16]
+
+print "aurinkosäätö starting... stamp now: '%s'" % stamp()
+
 
 pannu_file = os.path.join("/","mnt","1wire","28.D06B20060000","temperature")
 patteri_file = os.path.join("/","mnt","1wire","28.51B420060000","temperature")
@@ -179,6 +191,12 @@ while True:
     KWHmittari = KWHmittari + (tehosumma / 3600000)
     r_server.set('KWH', KWHmittari)
     r_server.set('PANNU', pannuTemp)
+
+    s=stamp()
+    r_server.set('NOW',s)
+    r_server.set('KWH:%s' % s, KWHmittari)
+    r_server.set('PANNU:%s' %s s, pannuTemp)
+
     tehosumma = 0
     print ("U=%0.1f ")%U,("I=%0.2f ")%I,("P=%0.2fW ")%teho,(" tv=%0.2f ")%pannuTemp,(" KWH=%0.1f ")%KWHmittari,time.strftime("%H:%M:%S:  %d.%m.%Y", time.localtime())
   
