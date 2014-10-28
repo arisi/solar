@@ -2,9 +2,7 @@
 #encoding: UTF-8
 
 require 'redis'
-require 'bcm2835'
 require 'time'
-include Bcm2835
 
 $tick=0
 $temp=0
@@ -18,10 +16,16 @@ def stamp
   return DateTime.now.strftime.gsub(/\D/,'')[0..11]
 end
 
+if $mode!='sim'
+  require 'bcm2835'
+  include Bcm2835
+end
+
 loop do
   sleep 1
   if $mode=='sim'
     $temp=40+Random.rand(10)
+    $kwh=2.0+Random.rand(10)/10.0
   else
     pin = 17
     GPIO.output(pin)
@@ -33,8 +37,17 @@ loop do
   end
   ss=stamp
   puts "loop #{$tick} #{ss}"
-  $redis.set "KWH",$tick
-  $redis.set "PANNU",$temp
-  $redis.set "NOW",ss
+  
+  $redis.set "tick",$tick
+  $redis.set "kwh",$kwh
+  $redis.set "pannu",$temp
+  
+  $redis.set "kwh:#{ss}",$kwh
+  $redis.expire("kwh:#{ss}", 60*60*24*2)
+  
+  $redis.set "pannu:#{ss}",$temp
+  $redis.expire("pannu:#{ss}", 60*60*24*2)
+  
+  $redis.set "now",ss
   $tick+=1
 end

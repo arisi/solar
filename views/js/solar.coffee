@@ -5,8 +5,8 @@ task = () ->
     type: "POST"
     success: (data) ->
       obj = jQuery.parseJSON(data)
-      $("#tick").html(obj.tick)
-      $("#temp").html(obj.temp)
+      $("#kwh").html(obj.kwh)
+      $("#pannu").html(obj.pannu)
       $("#now").html(obj.now)
 
 $(document).ready ->
