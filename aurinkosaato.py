@@ -191,13 +191,15 @@ while True:
     file_object.close()
     lampolaskuri = 0
     KWHmittari = KWHmittari + (tehosumma / 3600000)
-    r_server.set('KWH', KWHmittari )
-    r_server.set('PANNU', pannuTemp )
+    r_server.set('kwh', KWHmittari )
+    r_server.set('pannu', pannuTemp )
 
     s=stamp()
-    r_server.set('NOW',s)
-    r_server.set('KWH:%s' % s, KWHmittari )
-    r_server.set('PANNU:%s' % s, pannuTemp )
+    r_server.set('now',s)
+    r_server.set('kwh:%s' % s, KWHmittari )
+    r_server.expire('kwh:%s' % s, 60*60*24*2 ) #assuming python is like ruby
+    r_server.set('pannu:%s' % s, pannuTemp )
+    r_server.expire('pannu:%s' % s, 60*60*24*2 )
 
     tehosumma = 0
     print ("U=%0.1f ")%U,("I=%0.2f ")%I,("P=%0.2fW ")%teho,(" tv=%0.2f ")%pannuTemp,(" KWH=%0.1f ")%KWHmittari,time.strftime("%H:%M:%S:  %d.%m.%Y", time.localtime())

@@ -17,6 +17,7 @@ if ARGV[0]
   $port=ARGV[0]
 end
 set :bind => "0.0.0.0", :port => $port
+set :public_folder, 'public'
 
 def get_or_post(path, opts={}, &block)
   get(path, opts, &block)

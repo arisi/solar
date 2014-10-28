@@ -1,25 +1,28 @@
 !!!
 %html{lang: "fi"}
   %head
+    %link{:href => "/css/solar.css", :rel => "stylesheet", :type => "text/css"}
     %script{:src => "http://s.debet.fi/js/jquery-1.8.3.min.js"}
+    %script{:src => "https://cdnjs.cloudflare.com/ajax/libs/jquery.simpleWeather/3.0.2/jquery.simpleWeather.min.js"}
     %script{:src => "/js/solar.js", :type => "text/javascript"}
   %body
-    %h1
-      AURINKOSÄÄDIN
+    .weather
+      %h1 AURINKOSÄÄDIN
+    #weather.weather
     %hr
-    %p 
-      Saatu energia =
-      %span#kwh
-        ?
-      kWh
-    %p  
-      Pannun Lämpötila =
-      %span#pannu
-        ?
-      &deg;C
-    %p
-      aika nyt:
-      %span#now
-        ?
+    %ul.weather
+      %li
+        energia
+        %span#kwh
+          ?
+        kWh
+      %li
+        Pannu
+        %span#pannu
+          ?
+        &deg;C
+      %li
+        %span#now
+          ?
     %hr
     %p{style: "font-size: 12px;"} That's all folks!
