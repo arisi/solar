@@ -1,5 +1,7 @@
 *~
 *.gem
+Gemfile.lock
+dump.rdb 
 *.rbc
 /.config
 /coverage/
