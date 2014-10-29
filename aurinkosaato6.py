@@ -196,6 +196,9 @@ while True:
     r_server.expire('kwh:%s' % s, 60*60*24*2 )
     r_server.set('pannu', pannuTemp)
     r_server.expire('pannu:%s' % s, 60*60*24*2 )
+    r_server.set('patteri', patteriTemp)
+    r_server.expire('patteri:%s' % s, 60*60*24*2 )
+
     tehosumma = 0
     print ("U=%0.1f ")%U,("I=%0.2f ")%I,("P=%0.2fW ")%teho,(" tv=%0.2f ")%pannuTemp,(" KWH=%0.1f ")%KWHmittari,time.strftime("%H:%M:%S:  %d.%m.%Y", time.localtime())
 
