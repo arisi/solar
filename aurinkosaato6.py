@@ -189,6 +189,9 @@ while True:
     file_object.close()
     lampolaskuri = 0
     KWHmittari = KWHmittari + (tehosumma / 3600000)
+    
+    s=stamp()
+    
     r_server.set('kwh', KWHmittari)
     r_server.expire('kwh:%s' % s, 60*60*24*2 )
     r_server.set('pannu', pannuTemp)
