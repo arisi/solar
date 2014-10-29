@@ -173,7 +173,7 @@ while True:
   I = get_adc(0)    # in1
   setOutput(0,I*3)  # O1
   I = (I-5) * 0.047794 # 75mV/100A gain24.444 1100mVmax
-  teho = U * I * 1000 # kerrotaan tuhannella niin saadaan vaikuttavampi teho testiin
+  teho = U * I # kerrotaan tuhannella niin saadaan vaikuttavampi teho testiin
   lampolaskuri = lampolaskuri + 1
   tehosumma = tehosumma + teho # tehosumma on joulet
 

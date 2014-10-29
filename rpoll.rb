@@ -9,7 +9,7 @@ $temp=0
 
 $redis = Redis.new(:host => 'localhost' )
 
-$mode=ARGV[0]||="sim"
+$mode=ARGV[0]||="mittaus"
 puts "rpoll starting in mode #{$mode}"
 
 def stamp
