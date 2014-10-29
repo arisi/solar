@@ -41,12 +41,16 @@ loop do
   $redis.set "tick",$tick
   $redis.set "kwh",$kwh
   $redis.set "pannu",$temp
+  $redis.set "patteri",$temppatteri
   
   $redis.set "kwh:#{ss}",$kwh
   $redis.expire("kwh:#{ss}", 60*60*24*2)
   
   $redis.set "pannu:#{ss}",$temp
   $redis.expire("pannu:#{ss}", 60*60*24*2)
+
+  $redis.set "patteri:#{ss}",$temppatteri
+  $redis.expire("patteri:#{ss}", 60*60*24*2)
   
   $redis.set "now",ss
   $tick+=1

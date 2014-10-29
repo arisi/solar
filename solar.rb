@@ -29,7 +29,7 @@ get '/' do
 end
 
 get_or_post "/ajax" do
-  {kwh: $redis.get("kwh"), pannu: $redis.get("pannu"), now: $redis.get("now")}.to_json
+  {kwh: $redis.get("kwh"), pannu: $redis.get("pannu"), patteri: $redis.get("patteri"),  now: $redis.get("now")}.to_json
 end
 
 get '/js/:name.js' do

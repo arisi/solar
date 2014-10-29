@@ -7,6 +7,7 @@ task = () ->
       obj = jQuery.parseJSON(data)
       $("#kwh").html(obj.kwh)
       $("#pannu").html(obj.pannu)
+      $("#patteri").html(obj.patteri)      
       $("#now").html(obj.now)
 
 ennuste = () ->
