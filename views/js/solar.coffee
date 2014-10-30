@@ -5,6 +5,7 @@ task = () ->
     type: "POST"
     success: (data) ->
       obj = jQuery.parseJSON(data)
+      $("#teho").html(obj.teho)
       $("#kwh").html(obj.kwh)
       $("#pannu").html(obj.pannu)
       $("#patteri").html(obj.patteri)      

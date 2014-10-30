@@ -174,6 +174,9 @@ while True:
   setOutput(0,I*3)  # O1
   I = (I-5) * 0.047794 # 75mV/100A gain24.444 1100mVmax
   teho = U * I # kerrotaan tuhannella niin saadaan vaikuttavampi teho testiin
+  s=stamp()
+  r_server.set('teho', teho)
+  r_server.expire('teho:%s' % s, 60*60*24*2 )
   lampolaskuri = lampolaskuri + 1
   tehosumma = tehosumma + teho # tehosumma on joulet
 

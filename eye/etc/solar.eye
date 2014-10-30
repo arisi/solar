@@ -12,12 +12,12 @@ Eye.application :solar do
     daemonize true
     pid_file "/tmp/solar.pid"
   end
-  process :aurinkosaato6 do
-    notify :dev
-    notify :errors
-    auto_start  false
-    start_command "bundle exec ./aurinkosaato6.py"
-    daemonize true
-    pid_file "/tmp/rpoll.pid"
-  end
+#  process :aurinkosaato6 do
+#    notify :dev
+#    notify :errors
+#    auto_start  false
+#    start_command "bundle exec ./aurinkosaato6.py"
+#    daemonize true
+#    pid_file "/tmp/rpoll.pid"
+#  end
 end
