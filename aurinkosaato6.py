@@ -168,17 +168,20 @@ def setOutput(channel, val):
 while True:
   time.sleep(0.995)
   U = get_adc(1)    # in2
-  setOutput(1,U)    # O2
+#  setOutput(1,U)    # O2
   U = U * 0.0814721 # jannite kohilleen
   I = get_adc(0)    # in1
-  setOutput(0,I*3)  # O1
-  I = (I-5) * 0.047794 # 75mV/100A gain24.444 1100mVmax
+#  print ("I=%0.2f ")%I
+#  setOutput(0,I)  # O1
+  I = (I-16) * 0.047794 * 3 # 75mV/100A gain24.444 * 3 3300mVmax
   teho = U * I # kerrotaan tuhannella niin saadaan vaikuttavampi teho testiin
+  setOutput(1,int(teho)/5)    # O2
   s=stamp()
   r_server.set('teho', teho)
   r_server.expire('teho:%s' % s, 60*60*24*2 )
   lampolaskuri = lampolaskuri + 1
   tehosumma = tehosumma + teho # tehosumma on joulet
+#  print ("U=%0.1f ")%U,("I=%0.2f ")%I
 
 
   if lampolaskuri > 599: # 599 kun 10 minuuttia kulunut, mitataan lampotilat ja paivitetaan KWH-mittari
