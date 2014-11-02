@@ -11,7 +11,6 @@
 # ennen ohjelman toimintaa pitaa antaa kasky
 # sudo /opt/owfs/bin/owfs --i2c=ALL:ALL --allow_other /mnt/1wire/
 # jotta lampotila ilmestyy hakemistoon /mnt/1wire
-# tassa mukana flask webbiserveri JOU JOU
 
 # Import required libraries
 import time
@@ -173,12 +172,17 @@ while True:
   I = get_adc(0)    # in1
 #  print ("I=%0.2f ")%I
 #  setOutput(0,I)  # O1
-  I = (I-16) * 0.047794 * 3 # 75mV/100A gain24.444 * 3 3300mVmax
+  I = (I-16) * 0.143382 # 75mV/100A gain24.444 * 3 3300mVmax
   teho = U * I # kerrotaan tuhannella niin saadaan vaikuttavampi teho testiin
   setOutput(1,int(teho)/5)    # O2
   s=stamp()
-  r_server.set('teho', teho)
+  r_server.set('teho', int(teho))
   r_server.expire('teho:%s' % s, 60*60*24*2 )
+  r_server.set('u', round(U,2))
+  r_server.expire('u:%s' % s, 60*60*24*2 )  # testaamisjuttua
+  r_server.set('i', round(I,2))
+  r_server.expire('i:%s' % s, 60*60*24*2 )
+
   lampolaskuri = lampolaskuri + 1
   tehosumma = tehosumma + teho # tehosumma on joulet
 #  print ("U=%0.1f ")%U,("I=%0.2f ")%I
@@ -198,7 +202,7 @@ while True:
     
     s=stamp()
     
-    r_server.set('kwh', KWHmittari)
+    r_server.set('kwh', int(KWHmittari))
     r_server.expire('kwh:%s' % s, 60*60*24*2 )
     r_server.set('pannu', pannuTemp)
     r_server.expire('pannu:%s' % s, 60*60*24*2 )
@@ -241,6 +245,7 @@ while True:
           U = get_adc(1)       
           U = U * 0.0814721
           I = get_adc(0)
+          I = (I-16) * 0.143382
           teho = U * I
       
           if vertailuteho < teho: # eli jos kombinaation teho on suurempi,
@@ -254,6 +259,10 @@ while True:
 # tassa ollaan jo ulkona sekvenssista
 #          if maxtemp!=False: # tuupataan valittu kombinaatio ulos jos lämpö alle rajan
 #          print ("uudet kujeet")
+  r_server.set('valinta', valinta)
+  r_server.expire('valinta:%s' % s, 60*60*24*2 )
+  r_server.set('vertailuteho', int(vertailuteho))
+  r_server.expire('vertailuteho:%s' % s, 60*60*24*2 ) # testaamisjuttua
   for pin in range(0, 8): 
     xpin = RpiGPIO[pin]
     if Seq[valinta][pin]!=0:

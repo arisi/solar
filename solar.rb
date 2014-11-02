@@ -29,7 +29,7 @@ get '/' do
 end
 
 get_or_post "/ajax" do
-  {teho: $redis.get("teho"), kwh: $redis.get("kwh"), pannu: $redis.get("pannu"), patteri: $redis.get("patteri"),  now: $redis.get("now")}.to_json
+  {teho: $redis.get("teho"), kwh: $redis.get("kwh"), pannu: $redis.get("pannu"), patteri: $redis.get("patteri"), u: $redis.get("u"),i: $redis.get("i"), valinta: $redis.get("valinta"),vertailuteho: $redis.get("vertailuteho"),  now: $redis.get("now")}.to_json
 end
 
 get '/js/:name.js' do

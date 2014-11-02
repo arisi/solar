@@ -9,6 +9,10 @@ task = () ->
       $("#kwh").html(obj.kwh)
       $("#pannu").html(obj.pannu)
       $("#patteri").html(obj.patteri)      
+      $("#vertailuteho").html(obj.vertailuteho)
+      $("#valinta").html(obj.valinta)
+      $("#u").html(obj.u)
+      $("#i").html(obj.i)
       $("#now").html(obj.now)
 
 ennuste = () ->
