@@ -172,7 +172,7 @@ while True:
   I = get_adc(0)    # in1
 #  print ("I=%0.2f ")%I
 #  setOutput(0,I)  # O1
-  I = (I-16) * 0.143382 # 75mV/100A gain24.444 * 3 3300mVmax
+  I = (I-18) * 0.014706 # 75mV/100A gain24.444 * 3 3300mVmax
   teho = U * I # kerrotaan tuhannella niin saadaan vaikuttavampi teho testiin
   setOutput(1,int(teho)/5)    # O2
   s=stamp()
