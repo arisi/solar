@@ -77,17 +77,17 @@ WaitTime = 0.01
 teho = 0.0
 U = 0.0
 I = 0.0
-valinta = 4
+valinta = 0
 vertailuteho = -500.0
 vertailujannite = 0.0
-lampolaskuri = 70
+lampolaskuri = 0
 pannuTemp = 0.0
 patteriTemp = 0.0
 maxtemp = 50.0
 maksimi = False
 KWHmittari = 0.0
 tehosumma = 0.0
-
+KWHulos = 0.0
 # tallennetun jannitteen arvoksi laitetaan 0V
 # aluksi mitataan jannitetta jos jannite muuttuu 10V talletetusta arvosta
 # mennaan eteenpain ja etsitaan optimikuormitus
@@ -165,7 +165,7 @@ def setOutput(channel, val):
 
 # pollari eli ns. paaluuppi
 while True:
-  time.sleep(0.995)
+  time.sleep(0.946)
   U = get_adc(1)    # in2
 #  setOutput(1,U)    # O2
   U = U * 0.0814721 # jannite kohilleen
@@ -173,7 +173,9 @@ while True:
 #  print ("I=%0.2f ")%I
 #  setOutput(0,I)  # O1
   I = (I-18) * 0.014706 # 75mV/100A gain24.444 * 3 3300mVmax
-  teho = U * I # kerrotaan tuhannella niin saadaan vaikuttavampi teho testiin
+  teho = U * I
+#  teho = 100000.0
+  tehosumma = tehosumma + teho # tehosumma on joulet
   setOutput(1,int(teho)/5)    # O2
   s=stamp()
   r_server.set('teho', int(teho))
@@ -182,13 +184,12 @@ while True:
   r_server.expire('u:%s' % s, 60*60*24*2 )  # testaamisjuttua
   r_server.set('i', round(I,2))
   r_server.expire('i:%s' % s, 60*60*24*2 )
-
   lampolaskuri = lampolaskuri + 1
-  tehosumma = tehosumma + teho # tehosumma on joulet
 #  print ("U=%0.1f ")%U,("I=%0.2f ")%I
+#  print (" tehosumma=%0.1f ")%tehosumma
 
 
-  if lampolaskuri > 599: # 599 kun 10 minuuttia kulunut, mitataan lampotilat ja paivitetaan KWH-mittari
+  if lampolaskuri > 59: # 299 kun 5 minuuttia kulunut, mitataan lampotilat ja paivitetaan KWH-mittari
     file_object=open(pannu_file,'r')  # haetaan pannun lampo
     line=file_object.read()
     pannuTemp=float(line)
@@ -198,19 +199,18 @@ while True:
     patteriTemp=float(line)
     file_object.close()
     lampolaskuri = 0
-    KWHmittari = KWHmittari + (tehosumma / 3600000)
+    KWHmittari = KWHmittari + (tehosumma / 3600000.0)
+    KWHulos = KWHmittari
     
     s=stamp()
-    
-    r_server.set('kwh', int(KWHmittari))
+    r_server.set('kwh', round(KWHulos,2))
     r_server.expire('kwh:%s' % s, 60*60*24*2 )
     r_server.set('pannu', pannuTemp)
     r_server.expire('pannu:%s' % s, 60*60*24*2 )
     r_server.set('patteri', patteriTemp)
     r_server.expire('patteri:%s' % s, 60*60*24*2 )
-
+#    print (" KWH=%0.1f ")%KWHmittari, (" tehosumma=%0.1f ")%tehosumma
     tehosumma = 0
-#    print ("U=%0.1f ")%U,("I=%0.2f ")%I,("P=%0.2fW ")%teho,(" tv=%0.2f ")%pannuTemp,(" KWH=%0.1f ")%KWHmittari,time.strftime("%H:%M:%S:  %d.%m.%Y", time.localtime())
 
   if (pannuTemp > maxtemp): # jos pannu kuumana, katkaistaan lammitys
 #    print pannuTemp
@@ -227,7 +227,7 @@ while True:
   else:
 #    print ("vaihtuuuuuuuuu"), maksimi, vertailujannite, U
     if (vertailujannite > U + 1) or (vertailujannite < U - 1):# and maksimi!=False: # jos jännite muuttunut
-        lampolaskuri = 0                                                          # ja lämpö alle rajan
+#        lampolaskuri = 0                                                          # ja lämpö alle rajan
         StepCounter = 0
         vertailuteho = 0.0
         vertailujannite = 0.0
