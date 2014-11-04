@@ -245,7 +245,7 @@ while True:
           U = get_adc(1)       
           U = U * 0.0814721
           I = get_adc(0)
-          I = (I-16) * 0.143382
+          I = (I-18) * 0.014706
           teho = U * I
       
           if vertailuteho < teho: # eli jos kombinaation teho on suurempi,
