@@ -73,7 +73,7 @@ GPIO.output(29, True) # eka vastus paalle
 # Define some settings
 StepCounter = 0
 StepDir = 1
-WaitTime = 0.01
+WaitTime = 0.02
 teho = 0.0
 U = 0.0
 I = 0.0
@@ -172,7 +172,7 @@ while True:
   I = get_adc(0)    # in1
 #  print ("I=%0.2f ")%I
 #  setOutput(0,I)  # O1
-  I = (I-18) * 0.014706 # 75mV/100A gain24.444 * 3 3300mVmax
+  I = (I-18) * 0.014706 * 1.09 # 75mV/100A gain24.444 * 3 3300mVmax
   teho = U * I
 #  teho = 100000.0
   tehosumma = tehosumma + teho # tehosumma on joulet
@@ -226,7 +226,7 @@ while True:
         GPIO.output(xpin, False)
   else:
 #    print ("vaihtuuuuuuuuu"), maksimi, vertailujannite, U
-    if (vertailujannite > U + 1) or (vertailujannite < U - 1):# and maksimi!=False: # jos jännite muuttunut
+    if (vertailujannite > U + 5) or (vertailujannite < U - 5):# and maksimi!=False: # jos jännite muuttunut
 #        lampolaskuri = 0                                                          # ja lämpö alle rajan
         StepCounter = 0
         vertailuteho = 0.0
@@ -245,7 +245,7 @@ while True:
           U = get_adc(1)       
           U = U * 0.0814721
           I = get_adc(0)
-          I = (I-18) * 0.014706
+          I = (I-18) * 0.014706 * 1.09
           teho = U * I
       
           if vertailuteho < teho: # eli jos kombinaation teho on suurempi,
