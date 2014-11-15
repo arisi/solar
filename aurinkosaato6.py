@@ -179,11 +179,17 @@ while True:
   setOutput(1,int(teho)/5)    # O2
   s=stamp()
   r_server.set('teho', int(teho))
+  r_server.set('teho:%s' %s , int(teho))
   r_server.expire('teho:%s' % s, 60*60*24*2 )
+
   r_server.set('u', round(U,2))
+  r_server.set('u:%s' % s, round(U,2))
   r_server.expire('u:%s' % s, 60*60*24*2 )  # testaamisjuttua
+  
   r_server.set('i', round(I,2))
+  r_server.set('i:%s' % s, round(I,2))  
   r_server.expire('i:%s' % s, 60*60*24*2 )
+  
   lampolaskuri = lampolaskuri + 1
 #  print ("U=%0.1f ")%U,("I=%0.2f ")%I
 #  print (" tehosumma=%0.1f ")%tehosumma
@@ -204,11 +210,17 @@ while True:
     
     s=stamp()
     r_server.set('kwh', round(KWHulos,2))
-    r_server.expire('kwh:%s' % s, 60*60*24*2 )
+    r_server.set('kwh:%s' %s , round(KWHulos,2))
+    r_server.expire('kwh:%s' % s, 60*60*24*60 )
+    
     r_server.set('pannu', pannuTemp)
-    r_server.expire('pannu:%s' % s, 60*60*24*2 )
+    r_server.set('pannu:%s' %s , pannuTemp)
+    r_server.expire('pannu:%s' % s, 60*60*24*60 )
+    
     r_server.set('patteri', patteriTemp)
-    r_server.expire('patteri:%s' % s, 60*60*24*2 )
+    
+    r_server.set('patteri:%s' %s , patteriTemp)
+    r_server.expire('patteri:%s' % s, 60*60*24*60 )
 #    print (" KWH=%0.1f ")%KWHmittari, (" tehosumma=%0.1f ")%tehosumma
     tehosumma = 0
 
@@ -259,10 +271,13 @@ while True:
 # tassa ollaan jo ulkona sekvenssista
 #          if maxtemp!=False: # tuupataan valittu kombinaatio ulos jos lämpö alle rajan
 #          print ("uudet kujeet")
+
   r_server.set('valinta', valinta)
-  r_server.expire('valinta:%s' % s, 60*60*24*2 )
+  r_server.set('valinta:%s' %s , valinta)
+  r_server.expire('valinta:%s' %s , 60*60*24*60 )
   r_server.set('vertailuteho', int(vertailuteho))
-  r_server.expire('vertailuteho:%s' % s, 60*60*24*2 ) # testaamisjuttua
+  r_server.set('vertailuteho:%s' %s , int(vertailuteho))
+  r_server.expire('vertailuteho:%s' % s, 60*60*24*60 ) # testaamisjuttua
   for pin in range(0, 8): 
     xpin = RpiGPIO[pin]
     if Seq[valinta][pin]!=0:
