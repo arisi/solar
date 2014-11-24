@@ -73,7 +73,7 @@ GPIO.output(29, True) # eka vastus paalle
 # Define some settings
 StepCounter = 0
 StepDir = 1
-WaitTime = 0.02
+WaitTime = 0.05
 teho = 0.0
 U = 0.0
 I = 0.0
@@ -180,15 +180,15 @@ while True:
   s=stamp()
   r_server.set('teho', int(teho))
   r_server.set('teho:%s' %s , int(teho))
-  r_server.expire('teho:%s' % s, 60*60*24*2 )
+  r_server.expire('teho:%s' % s, 60*60*24*60 )
 
   r_server.set('u', round(U,2))
   r_server.set('u:%s' % s, round(U,2))
-  r_server.expire('u:%s' % s, 60*60*24*2 )  # testaamisjuttua
+  r_server.expire('u:%s' % s, 60*60*24*60 )  # testaamisjuttua
   
   r_server.set('i', round(I,2))
   r_server.set('i:%s' % s, round(I,2))  
-  r_server.expire('i:%s' % s, 60*60*24*2 )
+  r_server.expire('i:%s' % s, 60*60*24*60 )
   
   lampolaskuri = lampolaskuri + 1
 #  print ("U=%0.1f ")%U,("I=%0.2f ")%I
@@ -238,7 +238,7 @@ while True:
         GPIO.output(xpin, False)
   else:
 #    print ("vaihtuuuuuuuuu"), maksimi, vertailujannite, U
-    if (vertailujannite > U + 5) or (vertailujannite < U - 5):# and maksimi!=False: # jos jännite muuttunut
+    if (vertailujannite > U + 10) or (vertailujannite < U - 10):# and maksimi!=False: # jos jännite muuttunut
 #        lampolaskuri = 0                                                          # ja lämpö alle rajan
         StepCounter = 0
         vertailuteho = 0.0
@@ -284,6 +284,6 @@ while True:
       GPIO.output(xpin, True)
     else:
       GPIO.output(xpin, False)
-
+#  time.sleep(2)
 
 
